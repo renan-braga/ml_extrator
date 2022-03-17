@@ -18,11 +18,20 @@
        this.driver.get("https://produto.mercadolivre.com.br/" + produtoNormalizado);
        this.extrator.waitForLoad();
        if (this.extrator.existeElemento("//img[@data-index='0']")) {
-         String imagem = this.driver.findElement(By.xpath("//img[@data-index='0']")).getAttribute("src").toString();
-         String preco = this.driver.findElement(By.xpath("(//span[@class='price-tag-amount'])[1]")).getText();
+         String imagem = "";
+         String preco = "R$ ";
+
+         imagem = this.driver.findElement(By.xpath("//img[@data-index='0']")).getAttribute("src").toString();
+
+         if(extrator.existeElemento("//meta[@itemprop='price']/following-sibling::span[2]")){
+           preco = preco + this.driver.findElement(By.xpath("//meta[@itemprop='price']/following-sibling::span[2]")).getText();
+         } else {
+           preco = preco + "0,00";
+         }
+
          preco = preco.replace("\n", "");
-         imagem = String.valueOf(imagem+".jpg");
-         linha = String.valueOf(linha) + ";" + imagem + ";" + preco;
+         imagem = imagem != "" ? imagem + ".jpg" : "" ;
+         linha = linha + ";" + imagem + ";" + preco;
          System.out.println(imagem);
        } 
      } 

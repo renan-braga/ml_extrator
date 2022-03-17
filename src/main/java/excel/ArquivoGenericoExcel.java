@@ -59,7 +59,6 @@ public class ArquivoGenericoExcel {
 				if (linhas.isEmpty()) { //Primeira linha adicionada
 					textoLinha = textoLinha + adicionarNovasColunas("Capas", "Preco");
 				}
-
 				linhas.add(textoLinha);
 			}
 			row = sheetAux.getRow(++num);
@@ -79,7 +78,10 @@ public class ArquivoGenericoExcel {
 		int numCell = row.getLastCellNum();
 		String linha = "";
 		for (int i = 0; i < numCell; i++) {
-			linha = String.valueOf(linha) + row.getCell(i).toString().replace(";", "") + " ;";
+			if(row.getCell(i) != null)
+				linha = linha + row.getCell(i).toString().replace(";", "") + " ;";
+			else
+				linha = linha + ";";
 		}
 		return linha;
 	}
